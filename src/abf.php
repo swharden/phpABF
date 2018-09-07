@@ -4,6 +4,8 @@
 
 error_reporting( E_ALL | E_STRICT );
 
+require_once('misc.php');
+
 class ABF { 
 
     public $abfFileName;
@@ -27,16 +29,14 @@ class ABF {
         $this->FileClose();
         
     }
-
-    public function Info($useBR=true) {
+    
+    public function infoString() {
         // return a string containing info about the ABF
         $info = "### ABF Info for $this->abfID ###\n";
         $info .= "abfFileName = $this->abfFileName\n";
         $info .= "abfID = $this->abfID\n";
         $info .= "protocolPath = $this->protocolPath\n";
         $info .= "protocol = $this->protocol\n";
-        if ($useBR)
-            $info = str_replace("\n","<br>",$info);
         return $info;
     }
 
@@ -103,6 +103,56 @@ class ABF {
         }
         $this->protocol = basename($this->protocolPath);
         $this->protocol = str_replace(".pro","",$this->protocol);
+    }
+    
+    /////////////////////////////////////////////////
+    // FUNCTIONS WHICH DISPLAY TEXT TO THE BROWSER //
+    /////////////////////////////////////////////////
+    public function infoHTML(){
+        $msg = str_replace("\n","<br>",$this->infoString());
+        echo "<div class='codeBlock'>$msg</div>";
+    }
+
+    // echo all ABF header information as a HTML table
+    public function headerHTML()
+    {
+        $lines = explode("\n",$this->infoString());
+        echo "<div style='font-size: 200%; font-weight: bold;'>ABF Information for $this->abfID</div>";
+        echo "<table class='gridTable'>";
+        foreach ($lines as $line){
+            if (!strstr($line," = "))
+                continue;
+            echo "<tr class='gridRow'>";
+            foreach (explode("=",$line,2) as $item){
+                echo "<td class='gridCell'>$item</td>";
+            }
+            echo "</tr>";
+        }
+        echo "</table>";
+        echo "<div>&nbsp;</div>";
+    }
+
+    // echo a string of HTML formatted like a <tr></tr> with all this ABF's header info
+    public function headerHTMLrow($headerLabels=false){
+        $skipVars = ["abfFileName", "protocolPath"];
+        $lines = explode("\n",$this->infoString());
+        if ($headerLabels)
+            echo "<tr class='gridRowHeader'>";
+        else
+            echo "<tr class='gridRow'>";
+        foreach ($lines as $line){
+            if (!strstr($line," = "))
+                continue;
+            $item = explode(" = ",$line,2);
+            if (in_array($item[0],$skipVars))
+                continue;
+            if ($headerLabels){
+                echo "<td nowrap class='gridCell'>$item[0]</td>";
+            } else {
+                echo "<td nowrap class='gridCell'>$item[1]</td>";
+            }
+        }
+        echo "</tr>";
     }
 
 } 
