@@ -4,7 +4,10 @@
 
 error_reporting( E_ALL | E_STRICT );
 
-require_once('misc.php');
+// import misc functions if they haven't been imported already
+if (!function_exists('startsWith')) {
+    require_once('misc.php');
+}
 
 class ABF { 
 
