@@ -17,3 +17,22 @@ web is considered an IO device, which can be swapped invisibly with a console
 (or perhaps a C# application in the future?) and the core business logic does
 not change.
 * Extensive test coverage (tests can be run from the command prompt)
+
+## General Flow
+```php
+// create a Request object (could use a helper function to make this)
+// JSON!
+$request = new Request($action, $values);
+
+// load the request into a request handler
+$requestHandler = new RequestHandler($request);
+
+// execute the request and load the result into that request (JSON)
+$request = $requestHandler->Run();
+
+// the handler determines which Action class to call and
+// handles processing all behind the scenes.
+
+// a display engine determines how to show the handled request
+$display = new Display($handledRequest);
+```

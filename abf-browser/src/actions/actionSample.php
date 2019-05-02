@@ -1,17 +1,5 @@
 <?
 
-class Action
-{
-
-    public $request;
-
-    public function __construct($request)
-    {
-        $this->request = $request;
-    }
-
-}
-
 class ActionSample extends Action
 {
     public function Run()

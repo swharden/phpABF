@@ -13,10 +13,12 @@ function runAllTests($displayHtml = true)
     $testInfoSample = new TestActionSample("InfoSample Tests");
     $testInfoSample->Run();
 
-    */
-
     $testAbfFolder = new TestAbfFolder("ABF Folder Tests");
     $testAbfFolder->Run();
 
+    */
+    
+    $testInfoSample = new TestActionGetMenu("Menu Retrieval Tests");
+    $testInfoSample->Run();
     echoHtmlBot();
 }

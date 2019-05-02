@@ -3,7 +3,8 @@
 // This file provides methods used to interact with phpABF.
 // Users should not call any functions outside this script.
 
-error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+//error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+error_reporting(E_ALL);
 require_once "require.php";
 
 function phpAbf($action = null, $values = null, $displayHtml = true)

@@ -8,13 +8,9 @@ class Display
 
     public function __construct($request)
     {
-        $emptyRequest = new Request();
-        if (get_class($request) != get_class($emptyRequest)) {
-            throw new Exception("DisplayHtml only accepts Request objects");
-        } else {
-            $this->request = $request;
-            $this->request->logger->Section("The displayer is now managing this request");
-        }
+        $this->request = $request;
+        //TODO: verify this is a request object
+        $this->request->logger->Section("The displayer is now managing this request");
     }
 
     public function GetMessagesAsText()
@@ -74,7 +70,7 @@ class Display
         $html .= "</div>";
         return trim($html);
     }
-    
+
     public function GetMessagesAsHtmlMinimal()
     {
         $html = '';

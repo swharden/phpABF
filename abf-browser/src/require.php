@@ -26,6 +26,8 @@ $path_test_routines = $path_root . DIRECTORY_SEPARATOR . 'tests/routines';
 $path_templates_tools = $path_root . DIRECTORY_SEPARATOR . 'templates/tools';
 
 require_once $path_tools . "/tester.php";
+require_once $path_actions . "/action.php";
+
 RequireOnceEveryFileInFolder($path_tools);
 RequireOnceEveryFileInFolder($path_core);
 RequireOnceEveryFileInFolder($path_actions);
