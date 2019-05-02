@@ -55,3 +55,26 @@ function echoFlankedHtml($message, $flankCode)
 {
     echo "<$flankCode>$message</$flankCode>";
 }
+
+function abspath($path)
+{
+    $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+    $parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), 'strlen');
+    $absolutes = array();
+    foreach ($parts as $part) {
+        if ('.' == $part) {
+            continue;
+        }
+        if ('..' == $part) {
+            array_pop($absolutes);
+        } else {
+            $absolutes[] = $part;
+        }
+    }
+    return implode(DIRECTORY_SEPARATOR, $absolutes);
+}
+
+function GetFilenameWithoutExtension($filename){
+    $path_parts = pathinfo($filename);
+    return $path_parts['filename'];
+}

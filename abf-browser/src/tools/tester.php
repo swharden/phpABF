@@ -2,10 +2,12 @@
 class Tester
 {
     public $logger;
+    public $testName;
 
     public function __construct($testName, $displayHtml = true)
     {
         $this->logger = new Logger("$testName");
+        $this->testName = $testName;
         $this->displayHtml = $displayHtml;
         echoH2("$testName");
     }
@@ -13,12 +15,20 @@ class Tester
     public function TestStart($description)
     {
         echo "<div class='testDescription'>$description</div>";
+        // TODO: remove HTML
     }
 
-    public function TestEnd($display)
+    public function TestEnd($display = null)
     {
-        echo "<div class='testMinimal'>" . $display->GetMessagesAsHtmlMinimal() . "</div>";
+        echo "<div class='testMinimal'>";
+        if ($display)
+            echo $display->GetMessagesAsHtmlMinimal();
+        else
+            echo join("<br>", $this->logger->GetMessages());
+        echo "</div>";
         // TODO: something different for console?
+        
+        $this->logger->Clear();
     }
 
     public function samplePaths($count = 5, $mixedSlashes = true)

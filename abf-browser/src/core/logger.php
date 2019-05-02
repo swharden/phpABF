@@ -32,7 +32,7 @@ class Logger
     public function Message($message, $source = null, $messageType = "MESSAGE")
     {
         if ($source == null) {
-            $source = get_class($this);
+            $source = $this->name;
         }
 
         if ($this->timestampDate) {
@@ -55,6 +55,11 @@ class Logger
     public function GetName()
     {
         return $this->name;
+    }
+
+    public function Clear(){
+        $this->messages = array();
+        $this->Message("restarted logger");
     }
 
 }
