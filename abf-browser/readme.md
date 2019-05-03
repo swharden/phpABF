@@ -1,6 +1,9 @@
 # phpABF Browser
 
-The phpABF Browser is a project which aims to provide a PHP-driven web interface to navigate and document data in Axon Binary Format (ABF) files.
+The phpABF Browser is a project which aims to provide a PHP-driven web interface to navigate and document data in Axon Binary Format (ABF) files. 
+
+## Project Status: non-functional / in development
+This project is immature and is not functional on a large-scale at this time.
 
 ## Features and Improvements
 * phpABF is intended to replace [SWHLabPHP](https://github.com/swharden/SWHLabPHP) to provide a web interface for:
