@@ -4,15 +4,12 @@ class DisplayCell
 {
     public static function AsHtml($request)
     {
-        $valuesRequest = $request->GetRequestValues();
-        $abfFolderPath = $valuesRequest['abfFolderPath'];
-        $abfid = $valuesRequest['abfid'];
-        if ($abfid==""){
+        $abfFolderPath = $request->requestValues->Get('abfFolderPath');
+        $parentsAndChildren = $request->responseValues->Get('childrenOfParents');
+        $abfid = $request->requestValues->Get('abfid');
+        if ($abfid==""){ // TODO: catch this earlier / don't use empty string
             throw new Exception("cell display requires an abfid in the URL");
         }
-
-        $values = $request->GetResponseValues();
-        $parentsAndChildren = $values['childrenOfParents'];
 
         echo '<h1>Cell (parent) [what cell?]</h1>';
         foreach (array_keys($parentsAndChildren) as $parent) {

@@ -87,7 +87,7 @@ class AbfFolder
         $this->logger->Message("matched $parentCount parents with $childCount children");
     }
 
-    public function GetJson()
+    public function GetValues()
     {
         $values = array();
         $values['path'] = $this->path;
@@ -98,10 +98,7 @@ class AbfFolder
         $values['parents'] = $this->parents;
         $values['childrenOfParents'] = $this->childrenOfParents;
         $values['parentsOfChildren'] = $this->parentsOfChildren;
-        $json = Json::EncodeTight($values);
-        $jsonSize = strlen($json);
-        $this->logger->Message("encoded AbfFolder into $jsonSize bytes of JSON");
-        return $json;
+        return $values;
     }
 
 }

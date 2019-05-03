@@ -4,11 +4,8 @@ class DisplayFolder
 {
     public static function AsHtml($request)
     {
-        $valuesRequest = $request->GetRequestValues();
-        $abfFolderPath = $valuesRequest['abfFolderPath'];
-
-        $values = $request->GetResponseValues();
-        $parentsAndChildren = $values['childrenOfParents'];
+        $abfFolderPath = $request->requestValues->Get('abfFolderPath');
+        $parentsAndChildren = $request->responseValues->Get('childrenOfParents');
 
         echo "<h1>Folder: <code>$abfFolderPath</code></h1>";
         foreach (array_keys($parentsAndChildren) as $parent) {

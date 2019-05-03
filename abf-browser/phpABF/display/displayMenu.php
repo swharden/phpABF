@@ -40,8 +40,7 @@ class DisplayMenu
     }
 
     private static function EchoNavigation($request){
-        $valuesRequest = $request->GetRequestValues();
-        $abfFolderPath = $valuesRequest['abfFolderPath'];
+        $abfFolderPath = $request->requestValues->Get('abfFolderPath');
 
         echo "<div class='menuNav'>";
 
@@ -55,11 +54,8 @@ class DisplayMenu
     }
 
     private static function EchoCellList($request){
-        $valuesRequest = $request->GetRequestValues();
-        $abfFolderPath = $valuesRequest['abfFolderPath'];
-        
-        $values = $request->GetResponseValues();
-        $parentsAndChildren = $values['childrenOfParents'];
+        $abfFolderPath = $request->requestValues->Get('abfFolderPath');
+        $parentsAndChildren = $request->responseValues->Get('childrenOfParents');
 
         echo "<div class='menuCells'>";
 

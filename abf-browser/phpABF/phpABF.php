@@ -7,14 +7,14 @@ function phpAbfProcessUrl()
 {
     // build a JSON request string and load it into a Request object
     $request = new Request();
-    $request->AddValuesFromUrl();
+    $request->AddUrlValuesToRequest();
 
     // give the Request object to an Interactor and execute it (multiple times?)
     $interactor = new Interactor($request);
     $request = $interactor->ExecuteRequest();
 
     // display the completed request as desired
-    switch ($request->GetRequestValue("display")) {
+    switch ($request->requestValues->Get("display")) {
         case "frames":
             DisplayFrames::RedirectToFrames();
             break;
