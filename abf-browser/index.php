@@ -1,27 +1,23 @@
 <?
 
-require_once("phpABF/phpABF.php");
+require_once "phpABF/phpABF.php";
 
 HtmlIncludeTop();
 
-// build a JSON request string and load it into a Request object
-$values = array();
-$values["version"] = "1.0";
-$values["action"] = "scanAbfFolder";
-$values["abfFolderPath"] = 'D:\demoData\abfs-real';
-$requestJson = Json::EncodePretty($values);
-$request = new Request($requestJson);
+try {
+    if (Url::IsAskingForFrames()){
+        DisplayFrames::AsHtml();
+    } else {
+        phpAbfProcessUrl();
+    }
+} catch (Exception $exception) {
+    $exceptionMessage = $exception->getMessage();
+    $exceptionTrace = $exception->getTraceAsString();
+    echo "<div class='errorBlock'>";
+    echo "<div class='errorTitle'>EXCEPTION: $exceptionMessage</div>";
+    echo "<pre class='errorDetails'>Stack trace:\n$exceptionTrace</pre>";
+    echo "</div>";
+}
 
-// give the Request object to an Interactor and execute it (multiple times?)
-$interactor = new Interactor($request);
-$request = $interactor->ExecuteRequest();
-
-// the request now contains results in JSON format
-$scanAbfFolder_responseJson = $request->GetResponseJson();
-
-//DisplayMenu::AsHtml($scanAbfFolder_responseJson);
-DisplayCell::AsHtml($scanAbfFolder_responseJson);
 
 HtmlIncludeBot();
-
-?>

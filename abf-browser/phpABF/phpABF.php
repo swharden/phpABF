@@ -1,31 +1,37 @@
 <?
 
 error_reporting(E_ALL);
+require_once "core/require.php";
 
-function RequireOnceEveryFileInFolder($pathFolder)
+function phpAbfProcessUrl()
 {
-    assert(file_exists($pathFolder), "path does not exist: $pathFolder");
-    $pathFolder = realpath($pathFolder);
-    echo "\n<!-- IMPORTING EVERYTHING IN: $pathFolder -->\n";
-    foreach (scandir($pathFolder) as $filename) {
-        if (strstr($filename, ".php")) {
-            RequireOnce($pathFolder . DIRECTORY_SEPARATOR . $filename);
-        }
+    // build a JSON request string and load it into a Request object
+    $request = new Request();
+    $request->AddValuesFromUrl();
+
+    // give the Request object to an Interactor and execute it (multiple times?)
+    $interactor = new Interactor($request);
+    $request = $interactor->ExecuteRequest();
+
+    // display the completed request as desired
+    switch ($request->GetRequestValue("display")) {
+        case "frames":
+            DisplayFrames::RedirectToFrames();
+            break;
+        case "menu":
+            DisplayMenu::AsHtml($request);
+            break;
+        case "folder":
+            DisplayFolder::AsHtml($request);
+            break;
+        case "cell":
+            DisplayCell::AsHtml($request);
+            break;
+        default:
+            $display = $request->GetRequestValue("display");
+            throw new Exception("I don't know how to display '$display'");
+            break;
     }
-}
 
-function RequireOnce($phpFile)
-{
-    assert(file_exists($phpFile), "path does not exist: $phpFile");
-    assert(is_file($phpFile), "import must be a FILE: $phpFile");
-    assert(strpos($phpFile, ".php"), "import must end with .php: $phpFile");
-    require_once $phpFile;
-    echo "<!-- imported: $phpFile -->\n";
-}
 
-$pathHere = dirname(__file__);
-RequireOnce("$pathHere/configuration.php");
-RequireOnceEveryFileInFolder("$pathHere/core");
-RequireOnceEveryFileInFolder("$pathHere/tools");
-RequireOnceEveryFileInFolder("$pathHere/actions");
-RequireOnceEveryFileInFolder("$pathHere/display");
+}

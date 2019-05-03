@@ -92,6 +92,7 @@ class AbfFolder
         $values = array();
         $values['path'] = $this->path;
         $values['filenames'] = $this->filenames;
+        $values['filenamesAbf'] = $this->filenamesAbf;
         $values['analysisFolder'] = $this->analysisFolder;
         $values['analysisFilenames'] = $this->analysisFilenames;
         $values['parents'] = $this->parents;

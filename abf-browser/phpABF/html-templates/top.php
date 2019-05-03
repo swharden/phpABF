@@ -1,19 +1,13 @@
+<?php if (!Url::IsAskingForFrames()): ?>
+
 <html>
 <head>
-<title><?php echo $PAGE_TITLE;?></title>
+<title><?php echo $PAGE_TITLE; ?></title>
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 <style>
-.logMessage {
-    font-family: consolas, courier;
-    color: #999;
-}
-.result{
-    font-family: consolas, courier;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-left: 5px solid #CCC;
-    background-color: #EEE;
-}
+<?php include 'style.css';?>
 </style>
 </head>
 <body>
+
+<?php endif;?>

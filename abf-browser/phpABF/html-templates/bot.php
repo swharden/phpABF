@@ -1,4 +1,4 @@
-
-<div style='color: #DDD; margin-top: 50px;'>end of page</div>
+<?php if (!Url::IsAskingForFrames()): ?>
 </body>
 </html>
+<?php endif; ?>

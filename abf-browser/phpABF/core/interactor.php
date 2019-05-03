@@ -14,16 +14,16 @@ class Interactor
             $this->logger = new Logger();
         }
 
-        $this->request->Message("created an Interactor");
+        $this->request->logger->Message("created an Interactor");
     }
 
     public function ExecuteRequest()
     {
         $action = $this->request->GetRequestValue("action");
-        $this->request->Message("executing request for action '$action' ...");
+        $this->request->logger->Message("executing request for action '$action' ...");
         switch ($action){
-            case "scanAbfFolder":
-                $this->request->Message("response will a be JSON-encoded AbfFolder object");
+            case "getAbfList":
+                $this->request->logger->Message("response will a be JSON-encoded AbfFolder object");
                 $abfFolderPath = $this->request->GetRequestValue("abfFolderPath");
                 $abfLister = new GetAbfList($abfFolderPath);
                 $abfFolderJson = $abfLister->abfFolder->GetJson();
@@ -33,7 +33,7 @@ class Interactor
                 throw new Exception("Request action '$action' is not supported");
                 break;
         }
-        $this->request->Message("execution complete");
+        $this->request->logger->Message("execution complete");
         return $this->request;
     }
 }

@@ -20,8 +20,9 @@ class Logger
         }
 
         if ($echo) {
-            $html = StringTools::ToHtml($message);
-            $html = "<div class='logMessage'>$html</div>";
+            //$html = StringTools::ToHtml($message);
+            //$html = "<div class='logMessage'>$html</div>";
+            $html = "\n<!-- " . trim($message) . " -->\n";
             echo $html;
         }
     }
