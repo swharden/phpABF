@@ -1,24 +1,32 @@
 # phpABF
-The phpABF project provides a PHP interface to files in the Axon Binary Format (ABF). This project draws heavily from the [pyABF](https://github.com/swharden/pyABF) project. This project is divided into two main categories:
+The phpABF project provides a simple PHP interface to access header information from electrophysiology data files in the Axon Binary Format (ABF). This goal of this project is to make it easier to develop web interfaces to manage projects involving large numbers of ABF files.
 
-## phpABF ABF Interface
-The [phpABF ABF interface](abf-interface) contains PHP scripts which can directly read the binary content of ABF files and provide simple access to many of the header values.
+### Quickstart
 
-#### Example PHP
 ```php
-require_once "src/abf.php";
-$abf = new ABF('D:\demoData\abfs-real\17703009.abf');
-echo $abf->infoHTML();
+require "../src/ABF.php";
+$abf = new ABF("demo.abf");
+$abf->ShowInfo();
 ```
 
-#### Output
 ```
-### ABF Info for 17703009 ###
-abfFileName = D:\demoData\abfs-real\17703009.abf
-abfID = 17703009
-protocolPath = S:\Protocols\permanent\0112 steps dual -50 to 150 step 10.pro
-protocol = 0112 steps dual -50 to 150 step 10
+phpABF ShowInfo()
+path: C:\Apache24\htdocs\phpABF\demo\demo.abf
+abfID: demo
+fileSize: 14967808
+fileSizeMB: 14.27
+protocol: 0402 VC 2s MT-50.pro
+sweeps: 187
+channels: 1
+tags (2): drug A @ 2.9 min, drug B @ 4.91 min
 ```
 
-## phpABF Browser
-The [phpABF browser](abf-browser) seeks to provide a PHP-driven web interface to navigate and document ABF files and folders. This project is early in development and not large-scale functional at this time.
+### Supported Files
+
+Currently only ABF2 files are supported. ABF1 should be easy to implement, and any anyone interested in doing this can get excellent assistance from the [pyABF](http://swharden.com/pyabf/) source code.
+
+### Related Projects
+
+* **[pyABF](http://swharden.com/pyabf/)** is a Python interface to ABF files
+* **[vsABF](https://github.com/swharden/vsABF)** is a C#/.NET interface to ABF files
+* **[jsABF](https://github.com/swharden/jsabf)** is a browser-based ABF folder navigator using JavaScript 
