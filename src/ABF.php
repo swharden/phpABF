@@ -49,6 +49,8 @@ class ABF extends BinaryFileReader
         $fADCSequenceInterval = $this->ReadFloat($protocolSection_firstByte + 2);
         $sampleRate = 1e6 / $fADCSequenceInterval;
         $this->sweepCount = $this->ReadUInt32(12);
+        if ($this->sweepCount == 0)
+            $this->sweepCount = 1;
         $this->channelCount = $adcSection_count;
         $this->sweepLengthSec = $dataSection_count / $this->sweepCount / $this->channelCount / $sampleRate;
 
