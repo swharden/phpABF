@@ -1,0 +1,76 @@
+body {
+    font-family: "Segoe UI", sans-serif;
+    margin: 1em;
+}
+
+.title {
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.lineEdit {
+    font-family: "consolas", monospace;
+    font-size: 1.1em;
+    width: 500px;
+    border: none;
+    background-color: #f6f6f6;
+    border: 1px solid #CCC;
+    height: 34px;
+    padding: 5px;
+}
+
+.submitButton {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 1.1em;
+    height: 34px;
+    background-color: #f6f6f6;
+    border: 1px solid #CCC;
+    position: relative;
+    color: #AAA;
+    top: 2px;
+}
+
+.submitButton:hover {
+    color: black;
+    border: 1px solid #AAA;
+}
+
+.submitButton:active {
+    background-color: #dae9f2;
+}
+
+.error {
+    color: red;
+    font-size: 1.5em;
+    font-family: "consolas", monospace;
+}
+
+.benchmark {
+    /*
+            color: #999;
+            font-family: "consolas", monospace;
+            */
+}
+
+table {
+    margin-top: 1em;
+    border-collapse: collapse;
+    background-color: #f6f6f6;
+    border: 1px solid #CCC;
+}
+
+th {
+    text-align: left;
+    font-weight: 600px;
+    padding: 2 15 2 15;
+    background-color: #CCC;
+}
+
+td {
+    padding: 2 15 2 15;
+    min-width: 100px;
+}
+
+tr:nth-child(odd) {
+    background: #EAEAEA;
+}
