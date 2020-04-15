@@ -26,11 +26,57 @@ class ABF extends BinaryFileReader
 
         $this->Open();
 
-        // ensure this is an ABF2 file
         $firstFourBytes = $this->ReadString(4, 0);
-        if ($firstFourBytes != "ABF2")
-            throw new Exception("file is not ABF2 format");
+        if ($firstFourBytes == "ABF ")
+            $this->ReadHeaderABF1();
+        else if ($firstFourBytes == "ABF2")
+            $this->ReadHeaderABF2();
+        else
+            throw new Exception("file is not ABF format");
 
+        $this->Close();
+    }
+
+    private function ReadHeaderABF1()
+    {
+        // Header Values
+        $nOperationMode = $this->ReadUInt16(8);
+        $this->gapFree = ($nOperationMode == 3);
+        $this->channelCount = $this->ReadUInt16(120);
+        $this->sweepCount = $this->ReadUInt32(16);
+        if ($this->gapFree)
+            $this->sweepCount = 1;
+        $fADCSampleInterval = $this->ReadFloat(122);
+        $this->dataRate = 1e6 / $fADCSampleInterval / $this->channelCount;
+        $dataPointCount = $this->ReadUInt32(10);
+        $sweepPointCount = $dataPointCount / $this->sweepCount / $this->channelCount;
+        $this->sweepLengthSec = $sweepPointCount / $this->dataRate;
+        $protocolPath = trim($this->ReadString(256, 4898));
+        $this->protocol = str_replace(".pro", "", basename($protocolPath));
+
+        // Tag Comments
+        $lTagSectionPtr = $this->ReadUInt32(44);
+        $this->tagCount = $this->ReadUInt32(48);
+        $this->tagTimesSec = array();
+        $this->tagComments = array();
+        $this->tagStrings = array();
+        for ($i = 0; $i < $this->tagCount; $i++) {
+            $tagStartByte = $lTagSectionPtr * 512 + $i * 64;
+            $tagTime = $this->ReadUInt32($tagStartByte);
+            $tagTimeSec = $tagTime * $fADCSampleInterval / 1e6 / $this->channelCount;
+            $tagTimeMin = round($tagTimeSec / 60, 2);
+            $tagComment = trim($this->ReadString(56));
+            $tagType = $this->ReadUInt32(16);
+
+            array_push($this->tagTimesSec, $tagTimeSec);
+            array_push($this->tagComments, $tagComment);
+            array_push($this->tagStrings, "$tagComment @ $tagTimeMin min");
+        }
+        $this->tagStrings = implode(", ", $this->tagStrings);
+    }
+
+    private function ReadHeaderABF2()
+    {
         // get section byte location information
         $protocolSection_firstByte = $this->ReadUInt32(76) * 512;
         $protocolSection_size = $this->ReadUInt32();
@@ -46,10 +92,12 @@ class ABF extends BinaryFileReader
         $dataSection_count = $this->ReadUInt32();
 
         // read useful values from fixed offsets relative to certain sections
+        $nOperationMode = $this->ReadUInt16($protocolSection_firstByte);
+        $this->gapFree = ($nOperationMode == 3);
         $fADCSequenceInterval = $this->ReadFloat($protocolSection_firstByte + 2);
         $sampleRate = 1e6 / $fADCSequenceInterval;
         $this->sweepCount = $this->ReadUInt32(12);
-        if ($this->sweepCount == 0)
+        if ($this->gapFree)
             $this->sweepCount = 1;
         $this->channelCount = $adcSection_count;
         $this->sweepLengthSec = $dataSection_count / $this->sweepCount / $this->channelCount / $sampleRate;
@@ -95,8 +143,6 @@ class ABF extends BinaryFileReader
             }
         }
         $this->tagStrings = implode(", ", $this->tagStrings);
-
-        $this->Close();
     }
 
     public function __toString()
